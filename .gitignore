@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.env.*
+*.sqlite3
+*.log
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node / frontend build files (if any)
+node_modules/
+dist/
+build/
+
+# Docker
+*.docker
+*.dockerignore
+
+# Python bytecode
+*.pyc
