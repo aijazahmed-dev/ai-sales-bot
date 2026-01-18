@@ -1,11 +1,15 @@
+email-validator
 fastapi==0.109.2
 google-genai
+itsdangerous
 uvicorn[standard]==0.23.2
-sqlalchemy==2.0.22
+sqlalchemy
+pydantic
+pydantic-settings
 psycopg2
 python-dotenv==1.0.0
-email-validator==1.3.1
 jinja2==3.1.2
 httpx
 openai
 requests==2.31.0
+
