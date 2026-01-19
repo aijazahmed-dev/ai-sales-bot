@@ -7,12 +7,13 @@ def create_message(db: Session, lead_id: int, role: str, content: str):
         role=role,
         content=content
     )
+    
     db.add(msg)
     db.commit()
     db.refresh(msg)
     return msg
 
-def get_messages_by_lead(db: Session, lead_id: int):
+def get_messages_by_lead_id(db: Session, lead_id: int):
     return (
         db.query(ChatMessage)
         .filter(ChatMessage.lead_id == lead_id)

@@ -1,20 +1,40 @@
-from dotenv import load_dotenv
-import os
+from google import genai
+from google.genai import types
+from app.config import settings
 
-load_dotenv()
+# Create Gemini client once (recommended)
+client = genai.Client(api_key=settings.LLM_API_KEY)
 
-def generate_response(messages, engine="chatgpt"):
-    if engine == "chatgpt":
-        from openai import OpenAI
-        client = OpenAI(api_key=os.getenv("LLM_API_KEY"))
-        model = "gpt-4-turbo"
-    else:  # Gemini
-        from openai import OpenAI
-        client = OpenAI(
-            api_key=os.getenv("LLM_API_KEY"),
-            base_url="https://generativelanguage.googleapis.com/v1beta/"
-        )
-        model = "gemini-1.5-flash"
+MODEL_NAME = "gemini-2.5-flash"
 
-    response = client.chat.completions.create(model=model, messages=messages)
-    return response.choices[0].message.content
+
+def generate_response(messages: list) -> str:
+    """
+    messages example:
+    [
+        {"role": "system", "content": "..."},
+        {"role": "user", "content": "..."},
+        {"role": "assistant", "content": "..."}
+    ]
+    """
+
+    # Convert messages into a single prompt (Gemini-compatible)
+    prompt_parts = []
+
+    for msg in messages:
+        role = msg["role"].upper()
+        content = msg["content"]
+        prompt_parts.append(f"{role}: {content}")
+
+    prompt = "\n".join(prompt_parts)
+
+    response = client.models.generate_content(
+        model=MODEL_NAME,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            max_output_tokens=100,
+            temperature=0.3
+        )   
+    )
+
+    return response.text.strip()
