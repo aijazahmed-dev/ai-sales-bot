@@ -32,8 +32,8 @@ def generate_response(messages: list) -> str:
         model=MODEL_NAME,
         contents=prompt,
         config=types.GenerateContentConfig(
-            max_output_tokens=100,
-            temperature=0.3
+            max_output_tokens=120,
+            temperature=0.4
         )   
     )
 

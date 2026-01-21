@@ -1,13 +1,32 @@
 import smtplib
 from email.mime.text import MIMEText
-from app.config import SMTP_EMAIL, SMTP_PASSWORD
+from app.config import settings 
 
-def send_email(to_email, subject, body):
+def notify_human(lead):
+    if not all([settings.SMTP_HOST, settings.SMTP_PORT, settings.SMTP_USER,
+                settings.SMTP_PASSWORD, settings.NOTIFY_EMAIL]):
+        print("SMTP not configured, skipping email.")
+        return
+    
+    subject = f"New Interested Lead: {lead.name or 'Anonymous'}"
+    body = f"""
+    Lead ID: {lead.id}
+    Name: {lead.name or 'Anonymous'}
+    Email: {lead.email or 'N/A'}
+    Phone: {lead.phone or 'N/A'}
+    Message: {lead.message or 'N/A'}
+    """
+    
     msg = MIMEText(body)
     msg["Subject"] = subject
-    msg["From"] = SMTP_EMAIL
-    msg["To"] = to_email
+    msg["From"] = settings.SMTP_USER
+    msg["To"] = settings.NOTIFY_EMAIL  # human agent
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(SMTP_EMAIL, SMTP_PASSWORD)
-        server.sendmail(SMTP_EMAIL, to_email, msg.as_string())
+    try:
+        with smtplib.SMTP(settings.SMTP_HOST, int(settings.SMTP_PORT)) as server:
+            server.starttls()
+            server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
+            server.send_message(msg)
+            print(f"✅ Email sent to {settings.NOTIFY_EMAIL} for lead {lead.id}")
+    except Exception as e:
+        print(f"Failed to send notification: {e}")

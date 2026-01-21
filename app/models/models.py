@@ -12,6 +12,7 @@ class Lead(Base):
     phone = Column(String, nullable=True)
     message = Column(Text, nullable=True)
     intent_detected = Column(Boolean, default=False)
+    human_notified = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     messages = relationship("ChatMessage", back_populates="lead")

@@ -12,6 +12,7 @@ __pycache__/
 venv/
 env/
 .venv/
+aibot_env
 
 # IDEs / Editors
 .vscode/
@@ -30,7 +31,6 @@ build/
 
 # Docker
 *.docker
-*.dockerignore
 
 # Python bytecode
 *.pyc

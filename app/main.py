@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import your routers
-from app.routers import chat_router, lead_router, start_chat, admin_router
+from app.routers import chat_router, lead_router, admin_router
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -27,5 +27,4 @@ def health_check():
 # Include routers
 app.include_router(chat_router.router)
 app.include_router(lead_router.router)
-app.include_router(start_chat.router)
 # app.include_router(admin_router.router)

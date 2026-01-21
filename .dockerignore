@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.env.*
+*.sqlite3
+*.log
+venv/
+env/
+.venv/
+
+# Node / frontend build files (if any)
+node_modules/
+dist/
+build/
+
+# Git
+.git
+.gitignore
+
+# IDEs / Editors
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker files themselves
+*.dockerignore
