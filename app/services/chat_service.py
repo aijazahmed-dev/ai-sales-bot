@@ -1,14 +1,13 @@
 from sqlalchemy.orm import Session
-from app.crud.chat import create_message, get_messages_by_lead_id
+from app.crud.chat import create_message
 from app.services.llm_service import generate_response
 from app.models.models import Lead
 from app.crud.lead import mark_lead_as_interested, update_lead_info
 from .intent_service import detect_intent
 from app.utils.helpers import extract_user_info
 from app.schemas.schemas import LeadUpdate
-from app.services.notification_service import notify_human
 from app.utils.helpers import try_notify_human
-
+from app.crud.lead import get_chat_history
 
 SYSTEM_PROMPT = """
 You are a helpful SEO expert sales assistant for a digital marketing company.
@@ -44,10 +43,6 @@ def handle_first_message(db: Session, message: str) -> int:
     # Return lead id
     return lead.id
 
-def get_chat_history(db: Session, lead_id: int):
-    messages = get_messages_by_lead_id(db, lead_id)
-    return [{"role": m.role, "content": m.content} for m in messages]
-
 def process_message(db: Session, lead_id: int, user_message: str,):
     """
     1. Fetch chat history
@@ -82,22 +77,5 @@ def process_message(db: Session, lead_id: int, user_message: str,):
     if detect_intent(user_message):
         mark_lead_as_interested(db, lead_id)
         try_notify_human(db, lead_id)
-
-        # Only notify human if contact info exists AND hasn't been notified before
-        # if lead.intent_detected and lead.email and lead.phone and not lead.human_notified:
-        #     notify_human(lead)
-        #     lead.human_notified = True
-        #     db.commit()
-        #     db.refresh(lead)
-
-        # else:
-        #     # Ask user for missing info
-        #     missing = []
-        #     if not lead.email:
-        #         missing.append("email")
-        #     if not lead.phone:
-        #         missing.append("phone")
-        #     missing_str = " or ".join(missing)
-        #     bot_reply = f"{bot_reply.strip()} Could you please provide your {missing_str} so we can assist you further?"
 
     return bot_reply

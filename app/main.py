@@ -1,14 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.lifespan import lifespan
 
 # Import your routers
-from app.routers import chat_router, lead_router, admin_router
+from app.routers import chat_router, admin_router, auth
 
 # Initialize FastAPI app
 app = FastAPI(
     title="AI Sales + Handoff Bot",
     description="Engage website visitors, detect buying intent, and notify humans via email.",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Enable CORS (so your frontend chat widget can connect)
@@ -26,5 +28,5 @@ def health_check():
 
 # Include routers
 app.include_router(chat_router.router)
-app.include_router(lead_router.router)
-# app.include_router(admin_router.router)
+app.include_router(admin_router.router)
+app.include_router(auth.router)

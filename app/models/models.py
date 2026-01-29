@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 import datetime
 from app.db.base import Base
 
@@ -28,3 +29,13 @@ class ChatMessage(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     lead = relationship("Lead", back_populates="messages")
+
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    hashed_password = Column(String, nullable=False)
+    role = Column(String(50), default="admin", nullable=False)
+    is_active = Column(Integer, default=1)  # 1 = active, 0 = disabled
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

@@ -14,10 +14,23 @@ class LeadUpdate(BaseModel):
     phone: str | None = None
     intent_detected: bool | None = None
 
-class LeadResponse(LeadCreate):
+class MessageResponse(BaseModel):
+    role: str
+    content: str
+
+class LeadResponse(BaseModel):
     id: int
+    name: Optional[str]
+    email: Optional[str]
+    phone: Optional[str]
     intent_detected: bool
     created_at: datetime
+
+class DashboardStatsResponse(BaseModel):
+    total_leads: int
+    hot_leads: int
+    total_chats: int
+    conversion_rate: float
 
     class Config:
         from_attributes = True
@@ -36,6 +49,11 @@ class ChatMessageResponse(ChatMessageCreate):
     id: int
     lead_id: int
     created_at: datetime
+
+# Admin login
+class AdminLogin(BaseModel):
+    email: EmailStr
+    password: str
 
     class Config:
         from_attributes = True

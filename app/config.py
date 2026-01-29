@@ -3,6 +3,10 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     DATABASE_URL: str
     LLM_API_KEY: str
+    SECRET_KEY: str
+    ALGORITHM: str = "HS256"
+    ADMIN_EMAIL: str
+    ADMIN_PASSWORD: str
     
     SMTP_USER: str | None = None
     SMTP_PASSWORD: str | None = None
@@ -10,6 +14,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int | None = None
     NOTIFY_EMAIL: str | None = None
     DEBUG: bool = True
+    
 
     class Config:
         env_file = ".env"
