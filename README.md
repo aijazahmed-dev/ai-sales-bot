@@ -1,6 +1,6 @@
-# AI Support Automation Sales Bot
+# AI Customer Support & Lead Qualification Platform
 
-**AI Sales Bot** is a FastAPI-based solution designed to engage website visitors, detect buying intent, and notify human sales or support teams via email. It features a lightweight frontend with Tailwind CSS, making it easy to embed on websites and quickly deploy for clients.
+**AI Customer Support** is a FastAPI-based solution designed to engage website visitors, detect buying intent, and notify human sales or support teams via email. It features a lightweight frontend with Tailwind CSS, making it easy to embed on websites and quickly deploy for clients.
 
 ---
 

@@ -1,16 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.lifespan import lifespan
+import uvicorn
 
 # Import your routers
-from app.routers import chat_router, admin_router, auth
+from app.routers import chat_router, admin_router
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="AI Sales + Handoff Bot",
+    title="AI Customer Support & Lead Qualification Platform",
     description="Engage website visitors, detect buying intent, and notify humans via email.",
     version="1.0.0",
-    lifespan=lifespan
 )
 
 # Enable CORS (so your frontend chat widget can connect)
@@ -29,4 +28,6 @@ def health_check():
 # Include routers
 app.include_router(chat_router.router)
 app.include_router(admin_router.router)
-app.include_router(auth.router)
+
+if __name__ == "__main__":
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

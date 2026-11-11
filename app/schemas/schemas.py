@@ -50,10 +50,3 @@ class ChatMessageResponse(ChatMessageCreate):
     lead_id: int
     created_at: datetime
 
-# Admin login
-class AdminLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-    class Config:
-        from_attributes = True

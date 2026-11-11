@@ -7,14 +7,12 @@ from app.schemas.schemas import LeadResponse, LeadCreate, LeadUpdate, MessageRes
 from app.crud.lead import get_all_leads, create_lead, get_lead_by_id, update_lead_info, mark_lead_as_interested, get_chat_history
 from app.db.database import get_db
 from app.services.analytics import get_stats
-from app.auth.dependencies import get_current_admin
 from datetime import datetime
 
 
 router = APIRouter(
     prefix="/api/admin/leads",
     tags=["Admin"],
-    dependencies=[Depends(get_current_admin)]
 )
 
 

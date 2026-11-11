@@ -1,0 +1,28 @@
+{
+  "name": "ai_sales_bot",
+  "version": "1.0.0",
+  "description": "**AI Sales Bot** is a FastAPI-based solution designed to engage website visitors, detect buying intent, and notify human sales or support teams via email. It features a lightweight frontend with Tailwind CSS, making it easy to embed on websites and quickly deploy for clients.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aijazahmed-dev/ai-sales-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/aijazahmed-dev/ai-sales-bot/issues"
+  },
+  "homepage": "https://github.com/aijazahmed-dev/ai-sales-bot#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
