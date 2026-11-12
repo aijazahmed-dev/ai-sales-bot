@@ -1,9 +1,17 @@
+from app.logging_config import setup_logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from app.rate_limit import limiter
 import uvicorn
 
 # Import your routers
 from app.routers import chat_router, admin_router
+
+setup_logging()
+
+# ...uske baad baqi imports aur app = FastAPI(...)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -11,6 +19,9 @@ app = FastAPI(
     description="Engage website visitors, detect buying intent, and notify humans via email.",
     version="1.0.0",
 )
+
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # Enable CORS (so your frontend chat widget can connect)
 app.add_middleware(

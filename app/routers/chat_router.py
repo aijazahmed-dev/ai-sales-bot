@@ -1,39 +1,61 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
+
+from app.crud.lead import get_lead_by_token
 from app.db.database import get_db
-from app.schemas.schemas import ChatMessageCreate, ChatMessageResponse, ChatStartRequest
-from app.crud.chat import create_message
-from app.services.chat_service import process_message, handle_first_message
-
-
-router = APIRouter(
-    prefix="/chat",
-    tags=["Chat"]
+from app.rate_limit import limiter
+from app.schemas.schemas import (
+    ChatMessageRequest,
+    ChatReply,
+    ChatStartRequest,
+    ChatStartResponse,
+)
+from app.services.chat_service import (
+    LeadNotFound,
+    RateLimited,
+    create_anonymous_lead,
+    process_message,
 )
 
-@router.post("/message", response_model=ChatMessageResponse)
-def save_message(payload: ChatMessageCreate, db: Session = Depends(get_db)):
-    """
-    Save user message, generate AI reply, save AI reply, detect intent
-    """
-    try:
-        ai_reply_text = process_message(db=db, lead_id=payload.lead_id, user_message=payload.content)
-        bot_msg = create_message(db, payload.lead_id, "bot", ai_reply_text)
-        return bot_msg
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    
+router = APIRouter(prefix="/chat", tags=["Chat"])
 
-@router.post("/")
-def start_chat(payload: ChatStartRequest, db: Session = Depends(get_db)):
-    """
-    Start a new chat:
-    - Creates anonymous lead
-    - Saves first message
-    - Returns lead_id
-    """
-    lead_id = handle_first_message(db, payload.content)
+TOO_MANY = "You're sending messages too fast. Please wait a few minutes and try again."
+
+
+# NOTE: slowapi needs the parameter to be named exactly "request".
+@router.post("/", response_model=ChatStartResponse)
+@limiter.limit("5/minute;30/hour")
+def start_chat(
+    request: Request,
+    payload: ChatStartRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Start a chat. Returns a secret session_token (NOT the numeric lead id) and the first reply."""
+    lead = create_anonymous_lead(db)
+    bot_msg = process_message(db, lead.id, payload.content, background_tasks)
+    return ChatStartResponse(session_token=lead.session_token, reply=bot_msg.content)
+
+
+@router.post("/message", response_model=ChatReply)
+@limiter.limit("20/minute;200/hour")
+def send_message(
+    request: Request,
+    payload: ChatMessageRequest,
+    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
+):
+    """Continue a chat using the session_token from /chat/."""
+    lead = get_lead_by_token(db, payload.session_token)
+    if not lead:
+        # Same answer for "wrong token" and "expired": reveals nothing.
+        raise HTTPException(status_code=404, detail="Chat not found")
+
     try:
-        return {"lead_id": lead_id}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        bot_msg = process_message(db, lead.id, payload.content, background_tasks)
+    except (LeadNotFound, RateLimited) as exc:
+        if isinstance(exc, RateLimited):
+            raise HTTPException(status_code=429, detail=TOO_MANY)
+        raise HTTPException(status_code=404, detail="Chat not found")
+
+    return ChatReply(reply=bot_msg.content)

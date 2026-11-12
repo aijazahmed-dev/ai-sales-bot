@@ -1,11 +1,13 @@
-import smtplib
 from email.mime.text import MIMEText
 from app.config import settings 
+import smtplib
+import logging
 
+logger = logging.getLogger(__name__)
 def notify_human(lead):
     if not all([settings.SMTP_HOST, settings.SMTP_PORT, settings.SMTP_USER,
                 settings.SMTP_PASSWORD, settings.NOTIFY_EMAIL]):
-        print("SMTP not configured, skipping email.")
+        logger.warning("SMTP not configured, skipping notification")
         return
     
     subject = f"New Interested Lead: {lead.name or 'Anonymous'}"
@@ -27,6 +29,6 @@ def notify_human(lead):
             server.starttls()
             server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
             server.send_message(msg)
-            print(f"✅ Email sent to {settings.NOTIFY_EMAIL} for lead {lead.id}")
+            logger.info("Notification sent for lead_id=%s", lead.id)
     except Exception as e:
-        print(f"Failed to send notification: {e}")
+        logger.exception("Failed to send notification for lead_id=%s", lead.id)

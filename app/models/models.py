@@ -1,13 +1,17 @@
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-import datetime
 from app.db.base import Base
+import datetime
+import secrets
 
 class Lead(Base):
     __tablename__ = "leads"
 
     id = Column(Integer, primary_key=True, index=True)
+    session_token = Column(                                     # <- ye nayi line add karo
+        String(64), unique=True, index=True, nullable=False,
+        default=lambda: secrets.token_urlsafe(32),
+    )
     name = Column(String, nullable=True)
     email = Column(String, nullable=True)
     phone = Column(String, nullable=True)

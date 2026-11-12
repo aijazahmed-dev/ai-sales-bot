@@ -5,14 +5,15 @@ class Settings(BaseSettings):
     LLM_API_KEY: str
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
-    ADMIN_EMAIL: str
-    ADMIN_PASSWORD: str
+
     
     SMTP_USER: str | None = None
     SMTP_PASSWORD: str | None = None
     SMTP_HOST: str | None = None
     SMTP_PORT: int | None = None
     NOTIFY_EMAIL: str | None = None
+    LLM_MODEL: str | None = None
+    LOG_LEVEL: str = "INFO"
     DEBUG: bool = True
     
 

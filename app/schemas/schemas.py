@@ -1,6 +1,8 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, StringConstraints, Field
 from datetime import datetime
-from typing import Literal, Optional
+from typing import Literal, Optional, Annotated
+
+UserText = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=1000)]
 
 class LeadCreate(BaseModel):
     name: Optional[str] = None
@@ -38,15 +40,16 @@ class DashboardStatsResponse(BaseModel):
 
 # Chat schemas
 class ChatStartRequest(BaseModel):
-    content: str
+    content: UserText
 
-class ChatMessageCreate(BaseModel):
-    lead_id: int
-    role: Literal["user", "bot"]
-    content: str
+class ChatStartResponse(BaseModel):
+    session_token: str
+    reply: str
 
-class ChatMessageResponse(ChatMessageCreate):
-    id: int
-    lead_id: int
-    created_at: datetime
+class ChatMessageRequest(BaseModel):
+    session_token: str = Field(min_length=20, max_length=64)
+    content: UserText
+
+class ChatReply(BaseModel):
+    reply: str
 

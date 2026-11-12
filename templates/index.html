@@ -1,97 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Chat Bot</title>
 
-  <!-- Tailwind CSS -->
+  <!-- SEO: EDIT these two lines for your own product name and description -->
+  <title>AI Sales Chatbot | Answer customers and capture leads 24/7</title>
+  <meta name="description" content="An AI chatbot for your website that answers customer questions, captures leads and emails your team when someone is ready to buy." />
+
+  <!-- Compiled Tailwind CSS (see the build command in the instructions) -->
   <link rel="stylesheet" href="/static/css/tailwind.css" />
-
-  <!-- Optional: Favicon -->
-  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg" />
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+<!-- font-jost comes from your src/input.css (@theme). Remove it to use the default font. -->
+<body class="font-jost bg-white text-gray-800 antialiased">
 
-  <!-- HEADER -->
-  <header class="bg-white shadow-sm">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <h1 class="text-xl font-bold text-indigo-600">
-        AI Sales Chat Bot
-      </h1>
+  <!-- ============ 1. NAVBAR ============ -->
+  <header class="sticky top-0 z-40 border-b border-gray-200 bg-white/90 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
 
-      <nav class="space-x-6">
-        <a href="#" class="text-gray-600 hover:text-indigo-600">Home</a>
-        <a href="#" class="text-gray-600 hover:text-indigo-600">Features</a>
-        <a href="#" class="text-gray-600 hover:text-indigo-600">Contact</a>
+      <a href="/" class="flex items-center gap-2 text-xl font-bold text-indigo-600">
+        <img src="/static/images/favicon.svg" alt="" width="32" height="32" class="size-8" />
+        AI Sales Bot
+      </a>
+
+      <!-- Desktop links (hidden on mobile) -->
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Main">
+        <a href="#features" class="text-gray-600 hover:text-indigo-600">Features</a>
+        <a href="#how-it-works" class="text-gray-600 hover:text-indigo-600">How it works</a>
+        <a href="#industries" class="text-gray-600 hover:text-indigo-600">Who it's for</a>
+        <a href="#faq" class="text-gray-600 hover:text-indigo-600">FAQ</a>
+        <a href="#contact" class="rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Get Started</a>
       </nav>
+
+      <!-- Hamburger button (mobile only) -->
+      <button id="menu-btn" type="button" class="rounded-lg p-2 text-gray-700 hover:bg-gray-100 md:hidden"
+              aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </div>
+
+    <!-- Mobile menu (hidden until the button is tapped) -->
+    <nav id="mobile-menu" class="hidden border-t border-gray-200 px-4 pb-4 md:hidden" aria-label="Mobile">
+      <a href="#features" class="block py-3 text-gray-700">Features</a>
+      <a href="#how-it-works" class="block py-3 text-gray-700">How it works</a>
+      <a href="#industries" class="block py-3 text-gray-700">Who it's for</a>
+      <a href="#faq" class="block py-3 text-gray-700">FAQ</a>
+      <a href="#contact" class="mt-2 block rounded-lg bg-indigo-600 px-4 py-3 text-center font-medium text-white">Get Started</a>
+    </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
-  <main class="flex-1">
-    <section class="max-w-7xl mx-auto px-6 py-20 text-center">
-      <h2 class="text-4xl font-bold mb-4">
-        AI Chatbot for Your Website
-      </h2>
-      <p class="text-lg text-gray-600 mb-8">
-        Automatically answer questions, capture leads, and grow your business.
-      </p>
+  <main>
 
-      <div class="flex justify-center gap-4">
-        <button class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-800 cursor-pointer">
-          Get Started
-        </button>
-        <button class="border border-indigo-600 text-indigo-600 px-6 py-3 rounded-lg hover:bg-indigo-100 cursor-pointer">
-          View Demo
-        </button>
-      </div>
-    </section>
+    <!-- ============ 2. HERO ============ -->
+    <section class="bg-indigo-50/60">
+      <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24">
 
-    <section class="bg-white py-16">
-      <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
-        <div class="p-6 rounded-lg shadow-sm border">
-          <h3 class="font-semibold text-lg mb-2">24/7 AI Support</h3>
-          <p class="text-gray-600">
-            Answer customer questions instantly, anytime.
+        <div class="text-center md:text-left">
+          <p class="mb-4 inline-block rounded-full w-40 bg-indigo-100 px-4 py-1 text-sm font-medium text-indigo-700">
+            AI chatbot for your website
           </p>
+          <!-- EDIT: make this headline specific to your niche, e.g. "AI receptionist for dental clinics" -->
+          <h1 class="text-4xl font-bold leading-tight text-gray-900 sm:text-5xl">
+            Answer every customer.
+            <span class="text-indigo-600">Capture every lead.</span>
+          </h1>
+          <p class="mx-auto mt-6 mb-3 max-w-xl text-lg text-gray-600 md:mx-0">
+            Your website visitors get instant answers around the clock, and your team gets an email the moment someone is ready to buy.
+          </p>
+
+          <div class="mt-8 mb-4 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+            <a href="#contact" class="rounded-lg bg-indigo-600 px-6 py-3 mb-6 text-center font-semibold text-white shadow-sm hover:bg-indigo-700">
+              Get Started
+            </a>
+            <a href="/demo" class="rounded-lg border border-indigo-600 px-6 py-3 text-center font-semibold text-indigo-600 hover:bg-indigo-100">
+              View Live Demo
+            </a>
+          </div>
         </div>
 
-        <div class="p-6 rounded-lg shadow-sm border">
-          <h3 class="font-semibold text-lg mb-2">Lead Collection</h3>
-          <p class="text-gray-600">
-            Capture emails and phone numbers automatically.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-lg shadow-sm border">
-          <h3 class="font-semibold text-lg mb-2">Easy Integration</h3>
-          <p class="text-gray-600">
-            Add one script tag and you’re live.
-          </p>
+        <!-- Hero image: width/height stop the page from "jumping" while it loads -->
+        <div class="mx-auto w-full max-w-md md:max-w-none">
+          <img src="/static/images/hero-illustration.svg" width="560" height="480"
+               alt="A website chat where the AI assistant answers a visitor and captures their email"
+               class="h-auto w-full" fetchpriority="high" />
         </div>
       </div>
     </section>
+
+    <!-- ============ 4. HOW IT WORKS ============ -->
+    <section id="how-it-works" class="scroll-mt-20 bg-gray-50 py-16 sm:py-20">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Live in three simple steps</h2>
+        </div>
+
+        <ol class="mt-12 grid gap-8 md:grid-cols-3">
+          <li class="rounded-2xl bg-white p-6 text-center shadow-sm">
+            <span class="mx-auto flex size-12 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">1</span>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900">Tell us about your business</h3>
+            <p class="mt-2 text-gray-600">Share your services, prices and common questions. We teach the bot to answer like your team.</p>
+          </li>
+          <li class="rounded-2xl bg-white p-6 text-center shadow-sm">
+            <span class="mx-auto flex size-12 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">2</span>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900">Add one line to your site</h3>
+            <p class="mt-2 text-gray-600">Paste a small script into your website. The chat widget appears in the corner of every page.</p>
+          </li>
+          <li class="rounded-2xl bg-white p-6 text-center shadow-sm">
+            <span class="mx-auto flex size-12 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">3</span>
+            <h3 class="mt-4 text-lg font-semibold text-gray-900">Get leads by email</h3>
+            <p class="mt-2 text-gray-600">The bot chats with visitors and emails you the moment someone is ready to talk.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ 6. FAQ (no JavaScript needed: <details> opens and closes by itself) ============ -->
+    <section id="faq" class="scroll-mt-20 bg-gray-50 py-16 sm:py-20">
+      <div class="mx-auto max-w-3xl px-4 sm:px-6">
+        <h2 class="text-center text-3xl font-bold text-gray-900 sm:text-4xl">Frequently asked questions</h2>
+
+        <div class="mt-10 space-y-4">
+
+          <details class="group rounded-xl border border-gray-200 bg-white p-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900">
+              How do I add the chatbot to my website?
+              <span class="ml-4 text-indigo-600 transition group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-gray-600">You paste one small script tag into your website. If you use WordPress, Shopify or Wix, we can do it for you.</p>
+          </details>
+
+          <details class="group rounded-xl border border-gray-200 bg-white p-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900">
+              What if the bot doesn't know the answer?
+              <span class="ml-4 text-indigo-600 transition group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-gray-600">It won't make things up. It asks for the visitor's contact details and alerts your team so a real person can follow up.</p>
+          </details>
+
+          <details class="group rounded-xl border border-gray-200 bg-white p-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900">
+              How long does setup take?
+              <span class="ml-4 text-indigo-600 transition group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <!-- EDIT: change this to the timeline you can really deliver -->
+            <p class="mt-3 text-gray-600">Most businesses are live within a week, once we have your services and common questions.</p>
+          </details>
+
+          <details class="group rounded-xl border border-gray-200 bg-white p-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between font-semibold text-gray-900">
+              What happens to my customers' data?
+              <span class="ml-4 text-indigo-600 transition group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="mt-3 text-gray-600">Conversations are stored so you can review them, and visitors are told that the chat is saved. Read our <a href="/privacy" class="text-indigo-600 underline">Privacy Policy</a> or contact us for details.</p>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- FOOTER -->
+  <!-- ============ 8. FOOTER ============ -->
   <footer class="bg-gray-900 text-gray-300">
-    <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between">
-      <p>
-        © 2026 AI Chat Bot. All rights reserved.
-      </p>
-
-      <div class="space-x-4">
-        <a href="#" class="hover:text-white">Privacy</a>
-        <a href="#" class="hover:text-white">Terms</a>
-        <a href="#" class="hover:text-white">Contact</a>
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:px-6 md:flex-row">
+      <p>&copy; 2026 AI Sales Bot. All rights reserved.</p>
+      <!-- Create /privacy and /terms pages before you launch -->
+      <div class="flex gap-6">
+        <a href="/privacy" class="hover:text-white">Privacy</a>
+        <a href="/terms" class="hover:text-white">Terms</a>
+        <a href="#contact" class="hover:text-white">Contact</a>
       </div>
     </div>
   </footer>
 
-  <!-- CHAT WIDGET SCRIPT -->
-  <script src="/static/js/chat_widget.js"></script>
+  <!-- Mobile menu toggle: the only JavaScript on this page -->
+  <script>
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuBtn.addEventListener("click", () => {
+      const isHidden = mobileMenu.classList.toggle("hidden");
+      menuBtn.setAttribute("aria-expanded", String(!isHidden));
+    });
+
+    // Close the menu after tapping a link
+    mobileMenu.querySelectorAll("a").forEach((link) =>
+      link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+        menuBtn.setAttribute("aria-expanded", "false");
+      })
+    );
+  </script>
 
 </body>
 </html>

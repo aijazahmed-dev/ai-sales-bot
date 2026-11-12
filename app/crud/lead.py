@@ -20,6 +20,9 @@ def create_lead(db: Session, lead: LeadCreate) -> Lead:
 def get_lead_by_id(db: Session, lead_id: int) -> Lead | None:
     return db.query(Lead).filter(Lead.id == lead_id).first()
 
+def get_lead_by_token(db: Session, token: str) -> Lead | None:
+    return db.query(Lead).filter(Lead.session_token == token).first()
+
 def get_chat_history(db: Session, lead_id: int):
     lead_exists = db.query(Lead).filter(Lead.id == lead_id).first()
     if not lead_exists:
