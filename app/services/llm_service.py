@@ -79,7 +79,7 @@ def generate_turn(system_prompt: str, history: list[dict]) -> BotTurn:
                 system_instruction=system_prompt,
                 response_mime_type="application/json",
                 response_schema=BotTurn,
-                max_output_tokens=600,
+                max_output_tokens=400,
                 temperature=0.4,
                 # Chatbot doesn't need deep reasoning: faster, cheaper, no truncation.
                 thinking_config=types.ThinkingConfig(thinking_budget=0),

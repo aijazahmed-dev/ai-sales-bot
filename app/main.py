@@ -5,9 +5,15 @@ from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from app.rate_limit import limiter
 import uvicorn
+from pathlib import Path
+
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 # Import your routers
 from app.routers import chat_router, admin_router
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 setup_logging()
 
@@ -31,6 +37,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Serve URLs from static folder
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+
+@app.get("/", include_in_schema=False)
+def home():
+    return FileResponse(BASE_DIR / "templates" / "index.html")
 
 @app.get("/")
 def health_check():
